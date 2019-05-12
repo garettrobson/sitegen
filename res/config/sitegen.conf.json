@@ -1,0 +1,9 @@
+{
+    "question":{
+        "default": "default",
+        "type":{
+            "default": "Sitegen\\Command\\QuestionCommand",
+            "setup": "Sitegen\\Command\\QuestionCommand"
+        }
+    }
+}

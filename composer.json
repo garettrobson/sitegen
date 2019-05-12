@@ -1,0 +1,30 @@
+{
+    "name": "garettrobson/sitegen",
+    "description": "CLI tool for performing common LAMP tasks.",
+    "type": "project",
+    "require": {
+        "symfony/console": "^4.2",
+        "opis/json-schema": "^1.0",
+        "garettrobson/phputils": "^0.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "authors": [
+        {
+            "name": "Garett Robson",
+            "email": "info@garettrobson.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sitegen\\": "src/Sitegen/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/garettrobson/phputils"
+        }
+    ]
+}

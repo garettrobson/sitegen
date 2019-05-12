@@ -1,0 +1,35 @@
+{
+    "commands": [
+        {
+            "name": "db:setup",
+            "label": "Setup Database Connection",
+            "description": "Create a new database connection.",
+            "type": "setup",
+            "fields": {
+                "name": {
+                    "label": "Connection Name",
+                    "description": "The name which this connection will be known by.",
+                    "prompt": "Enter connections name",
+                    "default": "default"
+                },
+                "username": {
+                    "label": "Username",
+                    "description": "The username the new connection should be made with.",
+                    "prompt": "Enter the username"
+                },
+                "password": {
+                    "label": "Password",
+                    "description": "The password the new connection should be made with.",
+                    "prompt": "Enter the password"
+                },
+                "hostname": {
+                    "label": "Hostname",
+                    "description": "The hostname the new connection should be made to.",
+                    "prompt": "Enter the hostname",
+                    "default": "localhost"
+                }
+            },
+            "template": {}
+        }
+    ]
+}
