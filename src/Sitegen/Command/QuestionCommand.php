@@ -42,7 +42,7 @@ class QuestionCommand extends Command
     {
         $questionHelper = $this->getHelper('question');
         foreach ($this->descriptor->fields as $name => $field) {
-            $question = new Question($field->prompt . ": ");
+            $question = new Question($field->prompt . ": ", $field->default ?? null);
             $this->fields[$name] = $questionHelper->ask($input, $output, $question);
         }
     }
