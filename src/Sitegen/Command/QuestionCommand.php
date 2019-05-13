@@ -28,6 +28,7 @@ class QuestionCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        parent::initialize($input, $output);
         if (!$this->descriptor) {
             throw new RuntimeException(
                 sprintf(
@@ -40,10 +41,20 @@ class QuestionCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        parent::interact($input, $output);
         $questionHelper = $this->getHelper('question');
         foreach ($this->descriptor->fields as $name => $field) {
-            $question = new Question($field->prompt . ": ", $field->default ?? null);
-            $this->fields[$name] = $questionHelper->ask($input, $output, $question);
+            for ($repeat = true; $repeat;) {
+                $question = new Question($field->prompt . ": ", $field->default ?? null);
+                $answer = '' . $questionHelper->ask($input, $output, $question);
+                $reason = $this->getApplication()->validate($field->validate ?? [], $answer, $field);
+                if ($reason) {
+                    $output->writeln($reason);
+                } else {
+                    $this->fields[$name] = $answer;
+                    $repeat = false;
+                }
+            }
         }
     }
 
@@ -53,7 +64,7 @@ class QuestionCommand extends Command
         $data = [];
         foreach ($this->descriptor->fields as $name => $field) {
             $data[] = [
-                $field->label, $this->fields[$name]
+                $field->label, '"'.$this->fields[$name].'"'
             ];
         }
         $table

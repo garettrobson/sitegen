@@ -1,9 +1,19 @@
 {
-    "question":{
+    "question": {
         "default": "default",
-        "type":{
+        "type": {
             "default": "Sitegen\\Command\\QuestionCommand",
-            "setup": "Sitegen\\Command\\QuestionCommand"
+            "setup": "Sitegen\\Command\\SetupCommand"
+        }
+    },
+    "validators": {
+        "not_empty": {
+            "callback": "Sitegen\\Console\\Application::validateNotEmpty",
+            "message": "The value of :inline must not be empty."
+        },
+        "hostname": {
+            "callback": "Sitegen\\Console\\Application::validateHostname",
+            "message": "The value of :inline must be a hostname or ip."
         }
     }
 }

@@ -8,25 +8,38 @@
             "fields": {
                 "name": {
                     "label": "Connection Name",
+                    "inline": "connection name",
                     "description": "The name which this connection will be known by.",
                     "prompt": "Enter connections name",
                     "default": "default"
                 },
                 "username": {
                     "label": "Username",
+                    "inline": "username",
                     "description": "The username the new connection should be made with.",
-                    "prompt": "Enter the username"
+                    "prompt": "Enter the username",
+                    "validate": [
+                        "not_empty"
+                    ]
                 },
                 "password": {
                     "label": "Password",
+                    "inline": "password",
                     "description": "The password the new connection should be made with.",
-                    "prompt": "Enter the password"
+                    "prompt": "Enter the password",
+                    "validate": [
+                        "not_empty"
+                    ]
                 },
                 "hostname": {
                     "label": "Hostname",
+                    "inline": "hostname",
                     "description": "The hostname the new connection should be made to.",
                     "prompt": "Enter the hostname",
-                    "default": "localhost"
+                    "default": "localhost",
+                    "validate": [
+                        "hostname"
+                    ]
                 }
             },
             "template": {}
