@@ -3,7 +3,7 @@
         "default": "default",
         "type": {
             "default": "Sitegen\\Command\\QuestionCommand",
-            "setup": "Sitegen\\Command\\SetupCommand"
+            "dbsetup": "Sitegen\\Command\\DatabaseSetupCommand"
         }
     },
     "settings": "~/.sitegen.settings.json",
