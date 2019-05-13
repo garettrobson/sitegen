@@ -8,6 +8,11 @@ class SetupCommand extends QuestionCommand
 {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //parent::execute($input, $output);
+        $this->getApplication()->addDatabaseConnection(
+            $this->fields['name'],
+            $this->fields['username'],
+            $this->fields['password'],
+            $this->fields['hostname']
+        )->saveUserSettings();
     }
 }

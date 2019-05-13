@@ -4,17 +4,53 @@ namespace Sitegen\Console;
 use Symfony\Component\Console\Application as App;
 use Sitegen\Command\QuestionCommand;
 use PHPUtils\JsonObject;
-use \stdClass;
+use stdClass;
+use RuntimeException;
 
 class Application extends App
 {
     protected $configurations;
+    protected $userSettings;
 
     public function __construct(string $name = 'Sitegen', string $version = "v0.1")
     {
         parent::__construct($name, $version);
+        $this->loadConfigurations();
+        $this->loadUserSettings();
+        $this->addQuestionCommands();
+    }
+
+    public function realpath($path){
+        $info = posix_getpwuid(posix_getuid());
+        return str_replace('~', $info['dir'], $path);
+    }
+
+    protected function loadConfigurations(){
         $this->configurations = new stdClass;
         JsonObject::loadPath($this->configurations, __CONFDIR__, true, '/\.conf\.json$/i');
+    }
+
+    protected function loadUserSettings(){
+        try{
+            $this->userSettings = JsonObject::loadFile($this->realpath($this->configurations->settings));
+        }catch(RuntimeException $ex){
+            $this->userSettings = new stdClass;
+        }
+    }
+
+    public function addDatabaseConnection($name, $username, $password, $hostname){
+        JsonObject::set($this->userSettings, "connections.$name.username", $username);
+        JsonObject::set($this->userSettings, "connections.$name.password", $password);
+        JsonObject::set($this->userSettings, "connections.$name.hostname", $hostname);
+        return $this;
+    }
+
+    public function saveUserSettings(){
+        $json = json_encode($this->userSettings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        file_put_contents($this->realpath($this->configurations->settings), $json);
+    }
+
+    protected function addQuestionCommands(){
         $commands = JsonObject::get($this->configurations, "commands", []);
         foreach ($commands as $command) {
             $type =  $command->type ?? $this->configurations->question->default;
