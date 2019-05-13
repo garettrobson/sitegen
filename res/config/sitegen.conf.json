@@ -1,4 +1,7 @@
 {
+    "connection": {
+        "default": "default"
+    },
     "question": {
         "default": "default",
         "type": {
