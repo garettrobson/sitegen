@@ -6,6 +6,7 @@
             "setup": "Sitegen\\Command\\SetupCommand"
         }
     },
+    "settings": "~/.sitegen.settings.json",
     "validators": {
         "not_empty": {
             "callback": "Sitegen\\Console\\Application::validateNotEmpty",
