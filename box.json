@@ -1,4 +1,5 @@
 {
+    "chmod": "0711",
     "main": "sitegen.php",
     "directories-bin": [
         "res"
