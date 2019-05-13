@@ -6,6 +6,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use RuntimeException;
 
 class QuestionCommand extends Command
@@ -29,6 +30,7 @@ class QuestionCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         parent::initialize($input, $output);
+        $io = new SymfonyStyle($input, $output);
         if (!$this->descriptor) {
             throw new RuntimeException(
                 sprintf(
@@ -36,6 +38,12 @@ class QuestionCommand extends Command
                     __METHOD__
                 )
             );
+        }
+        if (posix_getuid() !== 0) {
+            $io->text("<comment>You are not running as root.</comment>");
+            if ($io->confirm('Would you like to stop execution?')) {
+                die;
+            }
         }
     }
 
@@ -60,16 +68,13 @@ class QuestionCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $table = new Table($output);
+        $io = new SymfonyStyle($input, $output);
         $data = [];
         foreach ($this->descriptor->fields as $name => $field) {
             $data[] = [
                 $field->label, '"'.$this->fields[$name].'"'
             ];
         }
-        $table
-            ->setHeaders(['Field', 'Value'])
-            ->setRows($data)
-            ->render();
+        $io->table(['Field', 'Value'], $data);
     }
 }
