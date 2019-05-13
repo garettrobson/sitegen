@@ -20,37 +20,43 @@ class Application extends App
         $this->addQuestionCommands();
     }
 
-    public function realpath($path){
+    public function realpath($path)
+    {
         $info = posix_getpwuid(posix_getuid());
         return str_replace('~', $info['dir'], $path);
     }
 
-    protected function loadConfigurations(){
+    protected function loadConfigurations()
+    {
         $this->configurations = new stdClass;
         JsonObject::loadPath($this->configurations, __CONFDIR__, true, '/\.conf\.json$/i');
     }
 
-    protected function loadUserSettings(){
-        try{
+    protected function loadUserSettings()
+    {
+        try {
             $this->userSettings = JsonObject::loadFile($this->realpath($this->configurations->settings));
-        }catch(RuntimeException $ex){
+        } catch (RuntimeException $ex) {
             $this->userSettings = new stdClass;
         }
     }
 
-    public function addDatabaseConnection($name, $username, $password, $hostname){
+    public function addDatabaseConnection($name, $username, $password, $hostname)
+    {
         JsonObject::set($this->userSettings, "connections.$name.username", $username);
         JsonObject::set($this->userSettings, "connections.$name.password", $password);
         JsonObject::set($this->userSettings, "connections.$name.hostname", $hostname);
         return $this;
     }
 
-    public function saveUserSettings(){
+    public function saveUserSettings()
+    {
         $json = json_encode($this->userSettings, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         file_put_contents($this->realpath($this->configurations->settings), $json);
     }
 
-    protected function addQuestionCommands(){
+    protected function addQuestionCommands()
+    {
         $commands = JsonObject::get($this->configurations, "commands", []);
         foreach ($commands as $command) {
             $type =  $command->type ?? $this->configurations->question->default;

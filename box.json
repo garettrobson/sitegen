@@ -1,0 +1,9 @@
+{
+    "main": "sitegen.php",
+    "directories-bin": [
+        "res"
+    ],
+    "directories": [
+        "src"
+    ]
+}

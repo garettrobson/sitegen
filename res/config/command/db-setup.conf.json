@@ -4,7 +4,7 @@
             "name": "db:setup",
             "label": "Setup Database Connection",
             "description": "Create a new database connection.",
-            "type": "setup",
+            "type": "dbsetup",
             "fields": {
                 "name": {
                     "label": "Connection Name",
